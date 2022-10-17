@@ -4,9 +4,14 @@ import {Box, Image, Text} from "native-base";
 import {images} from "../imports";
 import themeColors from "../styles/theme";
 
-const Tile = ({ text }) => {
+const Tile = ({ text, navigation }) => {
     const [isPressed, setPressed] = useState(false);
-    return <Pressable onPress={() => setPressed(true)} onPressOut={() => setPressed(false)} >
+
+    const handlePress = () => {
+        setPressed(true);
+        navigation.navigate(text, { name: text})
+    }
+    return <Pressable onPress={handlePress} onPressOut={() => setPressed(false)} >
         <Box
             bg={isPressed ? themeColors.pink : themeColors.blue}
             style={{
