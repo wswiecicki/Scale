@@ -1,12 +1,25 @@
 import {Center, Column, FavouriteIcon, Image, Text} from "native-base";
 import themeColors from "../styles/theme";
-import React from "react";
+import React, {useEffect} from "react";
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 import RecipeList from "../components/RecipeList";
 import {images} from "../imports";
 
 const V60 = (props) => {
     const Tab = createMaterialTopTabNavigator();
+
+    useEffect(() => {
+        props.navigation.setOptions({
+            headerRight: () => (
+                <Image source={images.V60}
+                       tintColor={themeColors.darkBlue}
+                       size={8}
+                       alt={'v60'}
+                />
+            ),
+        });
+    })
+
     return <>
         <Center _light={{bg: themeColors.white}} flex={1}>
             <Column space={5} minWidth={'100%'}>

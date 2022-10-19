@@ -1,12 +1,25 @@
 import {Center, Column, FavouriteIcon, Image} from "native-base";
 import themeColors from "../styles/theme";
 import {images} from "../imports";
-import React from "react";
+import React, {useEffect} from "react";
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 import RecipeList from "../components/RecipeList";
 
 const Espresso = (props) => {
     const Tab = createMaterialTopTabNavigator();
+
+    useEffect(() => {
+        props.navigation.setOptions({
+            headerRight: () => (
+                <Image source={images.Espresso}
+                       tintColor={themeColors.darkBlue}
+                       size={8}
+                       alt={'v60'}
+                />
+            ),
+        });
+    })
+
     return <>
         <Center _dark={{bg: themeColors.darkBlue}} _light={{bg: themeColors.white}} flex={1}>
             <Column space={5} minWidth={'100%'}>

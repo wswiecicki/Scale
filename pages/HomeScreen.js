@@ -5,9 +5,9 @@ import React from "react";
 
 const HomeScreen = ({navigation}) => {
     return <>
-        <Center _dark={{bg: themeColors.darkBlue}} _light={{bg: themeColors.white}} flex={1} paddingBottom={'10%'}>
+        <Center _dark={{bg: themeColors.darkBlue}} _light={{bg: themeColors.white}} flex={1}>
             <Column space={5} alignItems="center">
-                <Row space={4}>
+                <Row space={4} paddingBottom={32}>
                     <Tile text='Espresso' navigation={navigation}/>
                     <Tile text='V60' navigation={navigation}/>
                 </Row>

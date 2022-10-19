@@ -1,11 +1,12 @@
-import {Box, Image} from "native-base";
+import {Box, Center, Image, View} from "native-base";
 import {images} from "../imports"
 
-const Header = () => {
+const Header = ({tall, props}) => {
     return <>
-        <Box alignItems={'center'} justifyContent={'center'}>
-            <Image source={images.Logo} borderRadius={12} h={'40px'} alt="logo" style={{aspectRatio: 892 / 121}}/>
-        </Box>
+        <View py={tall ? '16' : null}>
+            <Image source={images.Logo} alt="logo"
+                   style={{aspectRatio: 1067 / 120, height: tall ? 40 : 24}}/>
+        </View>
     </>
 }
 

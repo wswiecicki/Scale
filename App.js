@@ -7,7 +7,13 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import Espresso from "./pages/Espresso";
 import V60 from "./pages/V60";
 import HomeScreen from "./pages/HomeScreen";
-import Recipe from "./components/Recipe";
+import RecipeDetails from "./components/RecipeDetails";
+import {
+    useFonts,
+    Montserrat_400Regular,
+    Montserrat_800ExtraBold,
+    Montserrat_600SemiBold
+} from '@expo-google-fonts/montserrat';
 
 const config = {
     useSystemColorMode: false,
@@ -19,6 +25,15 @@ export const theme = extendTheme({config});
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+    let [fontsLoaded] = useFonts({
+        Montserrat_400Regular,
+        Montserrat_600SemiBold,
+        Montserrat_800ExtraBold,
+    });
+
+    if (!fontsLoaded) {
+        return null;
+    }
     return (
         <NativeBaseProvider>
             <NavigationContainer>
@@ -30,7 +45,7 @@ export default function App() {
                 }}>
                     <Stack.Screen name={'Home'} component={HomeScreen}
                                   options={{
-                                      headerTitle: (props) => <Header {...props} />,
+                                      headerTitle: (props) => <Header tall={true} props={{...props}}/>,
                                   }}/>
                     <Stack.Screen name={'Espresso'} component={Espresso}
                                   options={{
@@ -41,10 +56,10 @@ export default function App() {
                                   options={{
                                       headerTitle: (props) => <Header {...props} />,
                                   }}/>
-                    <Stack.Screen name={'Recipe'} component={Recipe}
+                    <Stack.Screen name={'Recipe'} component={RecipeDetails}
                                   options={{
                                       headerTitle: (props) => <Header {...props} />,
-                   
+
                                   }}/>
                 </Stack.Navigator>
             </NavigationContainer>
