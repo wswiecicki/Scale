@@ -14,6 +14,7 @@ import {
     Montserrat_800ExtraBold,
     Montserrat_600SemiBold
 } from '@expo-google-fonts/montserrat';
+import Recipe from "./components/Recipe";
 
 const config = {
     useSystemColorMode: false,
@@ -56,10 +57,14 @@ export default function App() {
                                   options={{
                                       headerTitle: (props) => <Header {...props} />,
                                   }}/>
-                    <Stack.Screen name={'Recipe'} component={RecipeDetails}
+                    <Stack.Screen name={'RecipeDetails'} component={RecipeDetails}
                                   options={{
                                       headerTitle: (props) => <Header {...props} />,
 
+                                  }}/>
+                    <Stack.Screen name={'Recipe'} component={Recipe}
+                                  options={{
+                                      headerTitle: (props) => <Header {...props} />,
                                   }}/>
                 </Stack.Navigator>
             </NavigationContainer>

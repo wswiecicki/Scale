@@ -5,24 +5,13 @@ import StyledText from "./StyledText";
 import React from "react";
 import {LinearGradient} from 'expo-linear-gradient';
 import {images} from "../imports";
+import {renderIconSwitch} from "../backend/utils";
 
 
 const StepList = (steps, props) => {
-    const renderIconSwitch = (type) => {
-        switch (type) {
-            case 'bloom':
-                return <Image source={images.bloom} size={8} tintColor={themeColors.darkBlue} alt='bloom'/>;
-            case 'swirl':
-                return <Image source={images.swirl} size={8} tintColor={themeColors.darkBlue} alt='swirl'/>;
-            case 'wait':
-                return <Image source={images.wait} size={8} tintColor={themeColors.darkBlue} alt='wait'/>;
-            case 'pour':
-                return <Image source={images.pour} size={8} tintColor={themeColors.darkBlue} alt='pour'/>;
-            case 'stir':
-                return <Image source={images.stir} size={8} tintColor={themeColors.darkBlue} alt='stir'/>
-        }
-    }
+
     return <Column px={8} flex={1}>
+
         <FlatList
             style={{flexGrow: 1}}
             data={steps.steps}
