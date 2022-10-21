@@ -28,7 +28,7 @@ const RecipeList = (props) => {
                             marginVertical: 8
                         }}
                                           onPress={() => {
-                                              props.navigation.navigate('Recipe', {
+                                              props.navigation.navigate('RecipeDetails', {
                                                   title: item.title,
                                                   parent: parentName
                                               })

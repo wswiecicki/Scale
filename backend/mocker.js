@@ -224,7 +224,7 @@ export const recipeGenerator = async (name, parent) => {
             },
             {
                 name: 'wait',
-                time: 25,
+                time: 2,
                 coffee: 0,
                 water: 0,
                 description: '',
@@ -233,7 +233,7 @@ export const recipeGenerator = async (name, parent) => {
         ],
         favourite: true
     };
-    await sleep(2000);
+    await sleep(20);
     return a;
 }
 
