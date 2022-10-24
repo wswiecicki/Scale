@@ -3,70 +3,91 @@ export const mocker = {
         Roasters: [
             {
                 title: 'roasters First Item',
+                favourite: true,
             },
             {
                 title: 'Second Item',
+                favourite: false,
             },
             {
                 title: 'Third Item',
+                favourite: false,
             },
             {
                 title: 'Fourth Item',
+                favourite: false,
             },
             {
                 title: 'Fifth Item',
+                favourite: true,
             },
             {
                 title: 'Sixth Item',
+                favourite: true,
             },
             {
                 title: 'Seventh Item',
+                favourite: false,
             },
         ],
         'Your Own': [
             {
                 title: 'own First Item',
+                favourite: true,
             },
             {
                 title: 'Second Item',
+                favourite: true,
             },
             {
                 title: 'Third Item',
+                favourite: true,
             },
             {
                 title: 'Fourth Item',
+                favourite: true,
             },
             {
                 title: 'Fifth Item',
+                favourite: true,
             },
             {
                 title: 'Sixth Item',
+                favourite: true,
             },
             {
                 title: 'Seventh Item',
+                favourite: true,
             },
         ],
         Favourites: [
             {
                 title: 'fav First Item',
+                favourite: true,
             },
             {
                 title: 'Second Item',
+                favourite: true,
             },
             {
                 title: 'Third Item',
+                favourite: true,
             },
             {
                 title: 'Fourth Item',
+                favourite: true,
             },
             {
                 title: 'Fifth Item',
+                favourite: true,
             },
             {
                 title: 'Sixth Item',
+                favourite: true,
             },
             {
                 title: 'Seventh Item',
+                favourite: true,
             },
         ]
     },
@@ -74,70 +95,91 @@ export const mocker = {
         Roasters: [
             {
                 title: 'roasters First Item',
+                favourite: true,
             },
             {
                 title: 'Second Item',
+                favourite: false,
             },
             {
                 title: 'Third Item',
+                favourite: false,
             },
             {
                 title: 'Fourth Item',
+                favourite: false,
             },
             {
                 title: 'Fifth Item',
+                favourite: true,
             },
             {
                 title: 'Sixth Item',
+                favourite: true,
             },
             {
                 title: 'Seventh Item',
+                favourite: false,
             },
         ],
         'Your Own': [
             {
                 title: 'own First Item',
+                favourite: true,
             },
             {
                 title: 'Second Item',
+                favourite: true,
             },
             {
                 title: 'Third Item',
+                favourite: true,
             },
             {
                 title: 'Fourth Item',
+                favourite: true,
             },
             {
                 title: 'Fifth Item',
+                favourite: true,
             },
             {
                 title: 'Sixth Item',
+                favourite: true,
             },
             {
                 title: 'Seventh Item',
+                favourite: true,
             },
         ],
         Favourites: [
             {
                 title: 'fav First Item',
+                favourite: true,
             },
             {
                 title: 'Second Item',
+                favourite: true,
             },
             {
                 title: 'Third Item',
+                favourite: true,
             },
             {
                 title: 'Fourth Item',
+                favourite: true,
             },
             {
                 title: 'Fifth Item',
+                favourite: true,
             },
             {
                 title: 'Sixth Item',
+                favourite: true,
             },
             {
                 title: 'Seventh Item',
+                favourite: true,
             },
         ]
     }
@@ -179,7 +221,7 @@ export const recipeGenerator = async (name, parent) => {
                 time: 30,
                 coffee: 0,
                 water: 160,
-                description: 'Pour water slowly',
+                description: 'slowly',
                 id: 4
             },
             {
@@ -233,7 +275,7 @@ export const recipeGenerator = async (name, parent) => {
         ],
         favourite: true
     };
-    await sleep(20);
+    await sleep(500);
     return a;
 }
 

@@ -1,22 +1,30 @@
 import {CountdownCircleTimer} from 'react-native-countdown-circle-timer'
-import {Text} from "native-base";
+import {Box, Progress, Text} from "native-base";
 import themeColors from "../styles/theme";
 import StyledText from "./StyledText";
 import {secondsToMinutes} from "../backend/utils";
+import React from "react";
 
-const Timer = ({key, isPlaying, duration, onComplete}) => {
+const Timer = ({isPlaying, stepTime, onComplete}) => {
     return <CountdownCircleTimer
-        strokeWidth={4}
+        updateInterval={0}
+        strokeWidth={16}
         size={128}
         isPlaying={isPlaying}
-        duration={duration}
+        duration={stepTime}
         trailColor={themeColors.pink}
         colors={[themeColors.darkBlue, themeColors.pink]}
-        colorsTime={[duration, 0]}
+        colorsTime={[10, 0]}
         onComplete={onComplete}
     >
-        {({remainingTime}) => <StyledText fontSize={18}>{secondsToMinutes(remainingTime)}</StyledText>}
+        {({remainingTime, elapsedTime}) => {
+            return <>
+                <StyledText fontSize={20}>{secondsToMinutes(remainingTime)}</StyledText>
+
+            </>
+        }}
     </CountdownCircleTimer>
 }
 
-export default Timer;
+
+export default React.memo(Timer, (p1, p2) => p1.isPlaying === p2.isPlaying);

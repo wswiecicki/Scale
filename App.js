@@ -15,6 +15,7 @@ import {
     Montserrat_600SemiBold
 } from '@expo-google-fonts/montserrat';
 import Recipe from "./components/Recipe";
+import RecipeCreator from "./components/RecipeCreator";
 
 const config = {
     useSystemColorMode: false,
@@ -63,6 +64,10 @@ export default function App() {
 
                                   }}/>
                     <Stack.Screen name={'Recipe'} component={Recipe}
+                                  options={{
+                                      headerTitle: (props) => <Header {...props} />,
+                                  }}/>
+                    <Stack.Screen name={'RecipeCreator'} component={RecipeCreator}
                                   options={{
                                       headerTitle: (props) => <Header {...props} />,
                                   }}/>

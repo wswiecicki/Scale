@@ -47,8 +47,8 @@ const RecipeDetails = (props) => {
     useEffect(() => {
         recipeGenerator(title, parent).then(res => {
             setData(res);
-            setInitialData(res);
-            setPassedData(res);
+            setInitialData(res.steps);
+            setPassedData(res.steps);
             setSelectedWater(totalCount(res.steps, 'water'));
             setSelectedCoffee(totalCount(res.steps, 'coffee'));
             setInitialWater(totalCount(res.steps, 'water'));
@@ -80,7 +80,7 @@ const RecipeDetails = (props) => {
             const ratio = initialCoffee / initialWater;
             setSelectedCoffee(Math.round(initialCoffee * value / initialWater))
             const newDataRatio = value / initialWater;
-            const newData = initialData.steps.map(item => {
+            const newData = [...initialData].map(item => {
                 return {
                     name: item.name,
                     time: item.time,
@@ -176,7 +176,9 @@ const RecipeDetails = (props) => {
                 </Box>
                 <Pressable borderColor={themeColors.pink} flex={1} p={2} borderWidth={1} borderRadius={8}
                            alignItems={'center'} justifyContent={'center'} bg={themeColors.darkBlue}
-                           onPress={() => props.navigation.navigate('Recipe', {recipe: JSON.stringify(passedData)})}
+                           onPress={() => {
+                               props.navigation.navigate('Recipe', {recipe: JSON.stringify(passedData)})
+                           }}
                 >
                     <PlayIcon size={16} color={themeColors.pink}/>
                 </Pressable>
