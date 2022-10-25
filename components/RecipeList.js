@@ -1,15 +1,24 @@
 import {mocker} from "../backend/mocker";
 import {FlatList, SafeAreaView} from "react-native";
-import {Box, Center, Pressable, Text} from "native-base";
+import {Box, Center, FavouriteIcon, Pressable, Row, Text} from "native-base";
 import themeColors from "../styles/theme";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import StyledHeading from "./StyledHeading";
 import StyledText from "./StyledText";
 
 const RecipeList = (props) => {
     const parentName = props.route.params.parent;
     const routeName = props.route.name;
-    const data = mocker[parentName][routeName];
+
+    const [data, setData] = useState();
+    const [isUpToDate, setUpToDate] = useState(true);
+
+    useEffect(() => {
+        setData(mocker[parentName][routeName]);
+        setUpToDate(true);
+    }, [isUpToDate]);
+
+
     return <SafeAreaView>
         <Center paddingTop={10} bg={themeColors.white}>
             <Box w={'80%'} paddingBottom={12}>
@@ -34,8 +43,23 @@ const RecipeList = (props) => {
                                               })
                                           }}
                         >
-                            <StyledText>{item.title}</StyledText>
-                            <StyledText textAlign={'right'}>123</StyledText>
+                            <Row>
+                                <Box flex={6}>
+                                    <StyledText>{item.title}</StyledText>
+                                </Box>
+                                <Pressable
+                                    onPress={() => {
+                                        item.favourite ? alert('removing from favourites') : alert('adding to favourites');
+                                        setUpToDate(false);
+                                        //TODO: database call here (adding/removing from favourites)
+                                    }}>
+                                    <Center flex={1}>
+                                        <FavouriteIcon
+                                            size={6}
+                                            color={item.favourite ? themeColors.darkBlue : themeColors.pinkishBlue}/>
+                                    </Center>
+                                </Pressable>
+                            </Row>
                         </Pressable>
                     }}/>
             </Box>

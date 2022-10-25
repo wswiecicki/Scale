@@ -1,9 +1,10 @@
-import {Center, Column, FavouriteIcon, Image, Text} from "native-base";
+import {Center, Column, FavouriteIcon, Image, Pressable, Text} from "native-base";
 import themeColors from "../styles/theme";
 import React, {useEffect} from "react";
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 import RecipeList from "../components/RecipeList";
 import {images} from "../imports";
+import {Ionicons} from "@expo/vector-icons";
 
 const V60 = (props) => {
     const Tab = createMaterialTopTabNavigator();
@@ -11,11 +12,10 @@ const V60 = (props) => {
     useEffect(() => {
         props.navigation.setOptions({
             headerRight: () => (
-                <Image source={images.V60}
-                       tintColor={themeColors.darkBlue}
-                       size={8}
-                       alt={'v60'}
-                />
+                <Pressable
+                    onPress={() => props.navigation.navigate('RecipeCreator')}>
+                    <Ionicons name="md-add-outline" color={themeColors.darkBlue} size={30}/>
+                </Pressable>
             ),
         });
     })

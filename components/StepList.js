@@ -9,7 +9,6 @@ import {renderIconSwitch} from "../backend/utils";
 
 
 const StepList = (steps, props) => {
-
     return <Column px={8} flex={1}>
 
         <FlatList
@@ -27,11 +26,12 @@ const StepList = (steps, props) => {
                         marginVertical: 8
                     }}>
                     <Row alignItems={'center'}>
-                        <Box flex={2}>{renderIconSwitch(item.name)}</Box>
-                        <StyledText px={2} flex={8}>{item.name}</StyledText>
-                        <StyledText flex={1}>{item.time}s</StyledText>
+                        <Box flex={3}>{renderIconSwitch(item.name)}</Box>
+                        <StyledText px={3} flex={8}>{item.name}</StyledText>
+
                         <Box flex={1}><Image source={images.clock} size={5} tintColor={themeColors.darkBlue}
                                              alt='wait'/></Box>
+                        <StyledText pl={2} flex={2}>{item.time}s</StyledText>
                     </Row>
 
                 </Pressable>

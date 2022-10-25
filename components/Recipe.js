@@ -1,52 +1,24 @@
-import {
-    Box,
-    Center,
-    ChevronRightIcon,
-    Image,
-    PlayIcon,
-    Pressable,
-    Row,
-    Text,
-    useStyledSystemPropsResolver,
-    View
-} from "native-base";
-import Timer from "./Timer";
-import React, {useEffect, useState} from "react";
+import {Box, Center, Column, Pressable, Row, View} from "native-base";
+import React, {useRef, useState} from "react";
 import themeColors from "../styles/theme";
-import {images} from "../imports";
 import {Ionicons} from '@expo/vector-icons';
-import {renderIconSwitch, secondsToMinutes} from "../backend/utils";
+import {capitalize, descriptionSwitch, finalStep, initialStep, renderIconSwitch} from "../backend/utils";
 import StyledText from "./StyledText";
-import {CountdownCircleTimer} from "react-native-countdown-circle-timer";
 import MaskedView from "@react-native-masked-view/masked-view";
 import {LinearGradient} from "expo-linear-gradient";
-import {Platform} from "react-native";
+import {Animated, Dimensions, Platform, StyleSheet} from "react-native";
 import StepList from "./StepList";
+import Timer from "./Timer";
+import CustomProgressBar from "./CustomProgressBar";
 
 
 const Recipe = (props) => {
     const recipe = JSON.parse(props.route.params.recipe);
-    const initialStep = {
-        name: 'initial',
-        time: 3,
-        coffee: 0,
-        water: 0,
-        description: 'Get ready!',
-        id: 'initial'
-    };
-    const finalStep = {
-        name: 'final',
-        time: 0,
-        coffee: 0,
-        water: 0,
-        description: "You're done! Adjust the grind to achieve the correct drawdown.",
-        id: 'final'
-    }
-    const steps = [initialStep, ...recipe.steps, finalStep];
 
+    const steps = [initialStep, ...recipe, finalStep];
+    const [totalWater, setTotalWater] = useState(0);
     const [key, setKey] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
-
     const getStepProp = (prop) => {
         if (key > steps.length - 1) {
             return steps[steps.length - 1][prop];
@@ -54,24 +26,20 @@ const Recipe = (props) => {
         return steps[key][prop];
     }
 
+
     return <View flex={1} bgColor={themeColors.white}>
         <Row pt={8} px={8} space={2}>
             <Center flex={4}>
-                <CountdownCircleTimer
-                    strokeWidth={16}
+                <Timer
                     key={key}
-                    size={128}
                     isPlaying={isPlaying}
-                    duration={getStepProp('time')}
-                    trailColor={themeColors.pink}
-                    colors={[themeColors.darkBlue, themeColors.pink]}
-                    colorsTime={[10, 0]}
+                    stepTime={getStepProp('time')}
                     onComplete={() => {
                         setKey(key + 1);
+                        setTotalWater(getStepProp('water') + totalWater);
                     }}
-                >
-                    {({remainingTime}) => <StyledText fontSize={18}>{secondsToMinutes(remainingTime)}</StyledText>}
-                </CountdownCircleTimer>
+                />
+
             </Center>
             <Box flex={3} py={4}>
                 <Pressable
@@ -93,7 +61,11 @@ const Recipe = (props) => {
                     alignItems={'center'}
                     justifyContent={'center'}
                     bg={themeColors.darkBlue}
-                    onPress={() => setKey(prevKey => prevKey + 1)}
+                    onPress={() => {
+                        setKey(prevKey => prevKey + 1);
+                        setTotalWater(getStepProp('water') + totalWater);
+
+                    }}
                 >
                     <Ionicons name="play-forward-circle"
                               size={48}
@@ -101,31 +73,66 @@ const Recipe = (props) => {
                 </Pressable>
             </Box>
         </Row>
-        <Box p={4}>
-            <Row px={4} borderWidth={8} borderColor={themeColors.pink} borderRadius={16}>
-                <Row py={4} flex={1}>
-                    <Center flex={1}>
-                        {renderIconSwitch(getStepProp('name'), 20)}
-                    </Center>
-                    <Center flex={3}>
-                        <StyledText fontSize={22}>{getStepProp('name')}</StyledText>
-                        <StyledText>{getStepProp('description')}</StyledText>
-                    </Center>
+        <Box m={4} p={4} borderWidth={8} borderColor={themeColors.pink} borderRadius={16}>
+            <Column>
+                <Row px={4}>
+                    <Row flex={1}>
+                        <Center flex={1}>
+                            {renderIconSwitch(getStepProp('name'), 16)}
+                        </Center>
+                        <Center flex={3}>
+                            <StyledText fontSize={22}>{capitalize(getStepProp('name'))}</StyledText>
+                            <StyledText>{(descriptionSwitch(getStepProp('name'), getStepProp('description')))}</StyledText>
+                        </Center>
+                    </Row>
                 </Row>
-            </Row>
+                <Row>
+                    {getStepProp('water') !== 0 &&
+                        <CustomProgressBar size={300} key={`${key}-bar`} isPlaying={isPlaying}
+                                           duration={getStepProp('time')}
+                                           colors={[themeColors.darkBlue, themeColors.pink]}
+                                           weight={getStepProp('water')}
+                                           totalWeight={totalWater}
+                        />}
+                </Row>
+
+            </Column>
         </Box>
 
-        <MaskedView flex={1} maskElement={
-            <LinearGradient
-                colors={['rgb(237,237,237)', 'transparent']}
-                style={{width: '100%', height: '100%', zIndex: 1}}
-                start={{x: Platform.OS === 'ios' ? 0.5 : 0, y: 0.8}}
-            />
-        }>
+
+        <MaskedView
+            flex={1}
+            maskElement={
+                <LinearGradient
+                    colors={['rgb(237,237,237)', 'transparent']}
+                    style={{width: '100%', height: '100%', zIndex: 1}}
+                    start={{x: Platform.OS === 'ios' ? 0.5 : 0, y: 0.8}}
+                />
+            }>
             <StepList steps={steps.slice(key + 1, -1)}/>
         </MaskedView>
     </View>
 
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    fadingContainer: {
+        paddingTop: 8,
+        backgroundColor: "powderblue"
+    },
+    fadingText: {
+        fontSize: 28
+    },
+    buttonRow: {
+        flexBasis: 100,
+        justifyContent: "space-evenly",
+        marginVertical: 16
+    }
+});
 
 export default Recipe;
