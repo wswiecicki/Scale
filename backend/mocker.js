@@ -279,6 +279,6 @@ export const recipeGenerator = async (name, parent) => {
     return a;
 }
 
-function sleep(ms) {
+export function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
