@@ -17,6 +17,9 @@ import {
 import Recipe from "./components/Recipe";
 import RecipeCreator from "./components/RecipeCreator";
 import BluetoothConnector from "./pages/BluetoothConnector";
+import Toast from 'react-native-toast-message'
+import create from 'zustand'
+
 import {BleManager} from "react-native-ble-plx";
 
 
@@ -25,6 +28,15 @@ const config = {
     initialColorMode: "dark",
     backgroundColor: themeColors.white
 };
+
+
+export const useBLEStore = create((set) => ({
+    manager: new BleManager(),
+    weight: 'Device not found, connecting...',
+    setWeight: (weight) => set((state) => ({weight: weight})),
+    deviceConnected: false,
+    setDeviceConnected: (value) => set((state) => ({deviceConnected: value}))
+}))
 
 export const theme = extendTheme({config});
 const Stack = createNativeStackNavigator();
@@ -39,7 +51,7 @@ export default function App() {
     if (!fontsLoaded) {
         return null;
     }
-    const ManagerContext = createContext({});
+
 
     return (
         <NativeBaseProvider>
@@ -82,8 +94,10 @@ export default function App() {
                                       headerTitle: (props) => <Header {...props} />,
                                   }}/>
 
+
                 </Stack.Navigator>
             </NavigationContainer>
+            <Toast/>
         </NativeBaseProvider>
     );
 };

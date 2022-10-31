@@ -1,9 +1,11 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
-import Svg, {Path, LinearGradient, Stop, Defs, Rect} from 'react-native-svg';
-import Constants from 'expo-constants';
+import {StyleSheet, Text, View} from 'react-native';
+import Svg, {Rect} from 'react-native-svg';
 import {useCountdown} from 'react-native-countdown-circle-timer'
 import themeColors from "../styles/theme";
+import {Box, Row} from "native-base";
+import {Ionicons} from '@expo/vector-icons';
+import StyledText from "./StyledText";
 
 function CustomProgressBar(props) {
     const {duration, weight, totalWeight} = props;
@@ -17,32 +19,43 @@ function CustomProgressBar(props) {
     } = useCountdown(props)
 
     return (
-        <View style={styles.container}>
-            <View style={{width: '100%', height: 60}}>
-                <Svg flex={1} height={size} width='100%'>
+        <View style={{width: '100%', height: 60}}>
+            <Svg flex={1} height={size} width='100%'>
+                <Rect
+                    rx={8}
+                    width={'100%'}
+                    height="20"
+                    fill={themeColors.pink}
+                />
+                {elapsedTime !== duration && (
                     <Rect
-                        rx={8}
-                        width={'100%'}
+                        width={`${strokeDashoffset / pathLength * 100 > 2 ? strokeDashoffset / pathLength * 100 : 0}%`}
+                        fill={stroke}
                         height="20"
-                        fill={themeColors.pink}
+                        rx={8}
                     />
-                    {elapsedTime !== duration && (
-                        <Rect
-                            width={`${strokeDashoffset / pathLength * 100 > 2 ? strokeDashoffset / pathLength * 100 : 0}%`}
-                            fill={stroke}
-                            height="20"
-                            rx={8}
-                        />
-                    )}
-                </Svg>
-                <View style={styles.time}>
-                    <Text style={{
-                        fontSize: 20, fontFamily: 'Montserrat_600SemiBold',
-                        color: themeColors.darkBlue, alignSelf: 'center'
-                    }}>{Math.round(strokeDashoffset / pathLength * weight) + totalWeight}ml</Text>
-                </View>
+                )}
+            </Svg>
+
+            <View style={styles.time}>
+                <Row>
+                    <Box flex={1}/>
+                    <Row>
+                        <Text style={{
+                            fontSize: 20, fontFamily: 'Montserrat_600SemiBold',
+                            color: themeColors.darkBlue, alignSelf: 'center'
+                        }}>{Math.round(strokeDashoffset / pathLength * weight) + totalWeight}ml</Text>
+                    </Row>
+                    <Row flex={1} alignItems={'center'} justifyContent={'flex-end'}>
+                        <Ionicons name="ios-water-outline" size={18} color={themeColors.darkBlue}/>
+                        <StyledText>Recipe</StyledText>
+                    </Row>
+                </Row>
             </View>
+
         </View>
+
+
     );
 }
 
