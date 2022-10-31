@@ -11,4 +11,5 @@ export const images = {
     'stir': require('./assets/stir.png'),
     'clock': require('./assets/clock.png'),
     'coffee': require('./assets/coffee.png'),
+    'Bluetooth': require('./assets/bluetooth.png')
 }

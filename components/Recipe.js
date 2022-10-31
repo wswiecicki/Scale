@@ -1,4 +1,4 @@
-import {Box, Center, Column, Pressable, Row, View} from "native-base";
+import {Box, Center, Column, Pressable, Row, Text, View} from "native-base";
 import React, {useRef, useState} from "react";
 import themeColors from "../styles/theme";
 import {Ionicons} from '@expo/vector-icons';
@@ -10,6 +10,8 @@ import {Animated, Dimensions, Platform, StyleSheet} from "react-native";
 import StepList from "./StepList";
 import Timer from "./Timer";
 import CustomProgressBar from "./CustomProgressBar";
+import UserProgressShower from "./UserProgressShower";
+import {useBLEStore} from "../App";
 
 
 const Recipe = (props) => {
@@ -19,6 +21,10 @@ const Recipe = (props) => {
     const [totalWater, setTotalWater] = useState(0);
     const [key, setKey] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
+
+    const deviceConnected = useBLEStore((state) => state.deviceConnected);
+
+
     const getStepProp = (prop) => {
         if (key > steps.length - 1) {
             return steps[steps.length - 1][prop];
@@ -88,12 +94,22 @@ const Recipe = (props) => {
                 </Row>
                 <Row>
                     {getStepProp('water') !== 0 &&
-                        <CustomProgressBar size={300} key={`${key}-bar`} isPlaying={isPlaying}
-                                           duration={getStepProp('time')}
-                                           colors={[themeColors.darkBlue, themeColors.pink]}
-                                           weight={getStepProp('water')}
-                                           totalWeight={totalWater}
-                        />}
+                        <Column flex={1} pt={4} space={4}>
+                            <Box>
+                                <CustomProgressBar flex={1}
+                                                   size={300} key={`${key}-bar`} isPlaying={isPlaying}
+                                                   duration={getStepProp('time')}
+                                                   colors={[themeColors.darkBlue, themeColors.pink]}
+                                                   weight={getStepProp('water')}
+                                                   totalWeight={totalWater}
+                                />
+                            </Box>
+                            {deviceConnected ? (<Box>
+                                <UserProgressShower size={300}/>
+                            </Box>) : null}
+
+                        </Column>
+                    }
                 </Row>
 
             </Column>
