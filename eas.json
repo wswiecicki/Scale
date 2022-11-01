@@ -10,6 +10,11 @@
     "preview": {
       "distribution": "internal"
     },
+    "preview-android": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
     "production": {}
   },
   "submit": {
