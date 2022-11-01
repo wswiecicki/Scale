@@ -25,7 +25,8 @@ const Espresso = (props) => {
             <Column space={5} minWidth={'100%'}>
                 <Tab.Navigator screenOptions={{
                     tabBarStyle: {backgroundColor: themeColors.white},
-                    tabBarLabelStyle: {fontSize: 10, color: themeColors.darkBlue},
+                    tabBarLabelStyle: {fontSize: 10, color: themeColors.darkBlue, fontFamily: 'Montserrat_400Regular'},
+                    tabBarIndicatorStyle: {backgroundColor: themeColors.pinkishBlue}
                 }}>
                     <Tab.Screen
                         initialParams={{parent: props.route.name}}

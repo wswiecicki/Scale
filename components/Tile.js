@@ -4,7 +4,7 @@ import {Box, Image, Text} from "native-base";
 import {images} from "../imports";
 import themeColors from "../styles/theme";
 
-const Tile = ({text, navigation, path}) => {
+const Tile = ({text, navigation, path, size}) => {
     if (!path) path = text;
 
     const [isPressed, setPressed] = useState(false);
@@ -24,13 +24,13 @@ const Tile = ({text, navigation, path}) => {
             shadow={3}
             p={3}
             rounded="md"
-            width={Dimensions.get('window').width / 3}
-            height={Dimensions.get('window').width / 3}
+            width={size}
+            height={size}
             alignItems='center'
             justifyContent='center'>
             <>
                 <Image tintColor={themeColors.white} source={images[text]} alt={text} width={'75%'} height={'75%'}/>
-                <Text color={themeColors.white}>{text}</Text>
+                <Text color={themeColors.white} fontFamily={'Montserrat_400Regular'}>{text}</Text>
             </>
         </Box>
     </Pressable>
