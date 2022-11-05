@@ -35,7 +35,9 @@ export const useBLEStore = create((set) => ({
     weight: 'Device not found, connecting...',
     setWeight: (weight) => set((state) => ({weight: weight})),
     deviceConnected: false,
-    setDeviceConnected: (value) => set((state) => ({deviceConnected: value}))
+    setDeviceConnected: (value) => set((state) => ({deviceConnected: value})),
+    flowRate: 0,
+    setFlowRate: (value) => set((state) => ({flowRate: value}))
 }))
 
 export const theme = extendTheme({config});

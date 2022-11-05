@@ -18,6 +18,7 @@ function CustomProgressBar(props) {
         size,
     } = useCountdown(props)
 
+
     return (
         <View style={{width: '100%', height: 60}}>
             <Svg flex={1} height={size} width='100%'>
