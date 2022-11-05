@@ -96,16 +96,27 @@ const Recipe = (props) => {
                     {getStepProp('water') !== 0 &&
                         <Column flex={1} pt={4} space={4}>
                             <Box>
-                                <CustomProgressBar flex={1}
-                                                   size={300} key={`${key}-bar`} isPlaying={isPlaying}
-                                                   duration={getStepProp('time')}
-                                                   colors={[themeColors.darkBlue, themeColors.pink]}
-                                                   weight={getStepProp('water')}
-                                                   totalWeight={totalWater}
+                                <CustomProgressBar
+                                    flex={1}
+                                    size={300}
+                                    key={`${key}-bar`}
+                                    isPlaying={isPlaying}
+                                    duration={getStepProp('time')}
+                                    colors={[themeColors.darkBlue, themeColors.pink]}
+                                    weight={getStepProp('water')}
+                                    totalWeight={totalWater}
                                 />
                             </Box>
                             {deviceConnected ? (<Box>
-                                <UserProgressShower size={300}/>
+                                <UserProgressShower
+                                    key={`${key}-user-bar`}
+                                    duration={getStepProp('time')}
+                                    isPlaying={isPlaying}
+                                    weight={getStepProp('water')}
+                                    size={300}
+                                    totalWeight={totalWater}
+                                    colors={[themeColors.darkBlue, themeColors.pink]}
+                                />
                             </Box>) : null}
 
                         </Column>

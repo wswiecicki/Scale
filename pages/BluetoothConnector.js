@@ -16,6 +16,7 @@ const BluetoothConnector = (props) => {
     const weight = useBLEStore((state) => state.weight);
     const setWeight = useBLEStore((state) => state.setWeight)
     const setDeviceConnected = useBLEStore((state) => state.setDeviceConnected)
+    const flowRate = useBLEStore((state) => state.flowRate);
 
     const showErrorToast = () => {
         Toast.show({
@@ -35,12 +36,21 @@ const BluetoothConnector = (props) => {
         });
     }
 
+    function _base64ToArrayBuffer(base64) {
+        const binary_string = window.atob(base64);
+        const len = binary_string.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binary_string.charCodeAt(i);
+        }
+        return bytes.buffer;
+    }
+
     const readValue = (val) => {
         const readValueInRawBytes = Buffer.from(val, 'base64');
 
         const mostSignificantByte = readValueInRawBytes[1];
         const leastSignificantByte = readValueInRawBytes[0];
-
         return (mostSignificantByte << 8) | leastSignificantByte;
     }
 
@@ -99,19 +109,23 @@ const BluetoothConnector = (props) => {
                         await a[0].writeWithResponse(heightBuffer.toString('base64'));
 
                         const scaleValue = readValue((await a[0].read()).value);
-                        if (scaleValue) showHappyToast();
-
+                        console.log('happy toast!', scaleValue);
+                        if (scaleValue) {
+                            showHappyToast();
+                            setWeight(scaleValue);
+                        }
 
                         a[0].monitor(async (error, update) => {
                             if (error) {
                                 showErrorToast();
                                 setDeviceConnected(false);
                             } else {
-                                const scaleValue = readValue(update.value);
+                                const scaleValue = readValue(update.value) / 10;
                                 setWeight(scaleValue);
 
                                 const heightBuffer = Buffer.alloc(2);
-                                heightBuffer.writeUInt16LE(123, 0);
+                                heightBuffer.writeUInt16LE(flowRate, 0);
+                                console.log(flowRate);
                                 await a[0].writeWithResponse(heightBuffer.toString('base64'));
                             }
                         })

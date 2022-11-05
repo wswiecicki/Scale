@@ -13,15 +13,52 @@ import {FontAwesome} from '@expo/vector-icons';
 function UserProgressShower(props) {
     const {duration, weight, totalWeight, size} = props;
 
-    const userWeight = useBLEStore((state) => state.weight);
+    const {
+        pathLength,
+        stroke,
+        strokeDashoffset,
+        elapsedTime
+    } = useCountdown(props)
 
-    // const {
-    //     pathLength,
-    //     stroke,
-    //     strokeDashoffset,
-    //     elapsedTime,
-    //     size,
-    // } = useCountdown(props)
+    const userWeight = useBLEStore((state) => state.weight);
+    const setFlowRate = useBLEStore((state) => state.setFlowRate);
+    const flowRate = useBLEStore((state) => state.flowRate);
+
+
+    const interpolateWeight = () => {
+        const end = weight + totalWeight;
+        const expected = strokeDashoffset / pathLength * 100;
+
+        if (userWeight < totalWeight) {
+            flowRate === 1 ? null : setFlowRate(1);
+            return 0;
+        } else if (userWeight > end) {
+            flowRate === 2 ? null : setFlowRate(2);
+            return 100;
+        } else {
+            const current = ((userWeight - totalWeight) / weight) * 100;
+
+            if (expected - current > 5) {
+                flowRate === 1 ? null : setFlowRate(1);
+            } else if (expected - current < -5) {
+                flowRate === 2 ? null : setFlowRate(2);
+            } else {
+                flowRate === 0 ? null : setFlowRate(0);
+            }
+            return current;
+        }
+    }
+
+    const flowRateSwitch = () => {
+        switch (flowRate) {
+            case 0:
+                return 'OK';
+            case 1:
+                return 'Too slow';
+            case 2:
+                return 'Too fast'
+        }
+    }
 
     return (
         <View style={{width: '100%', height: 60}}>
@@ -34,7 +71,8 @@ function UserProgressShower(props) {
                 />
 
                 <Rect
-                    width={`${((userWeight / 255) * 100) > 3 ? (userWeight / 255) * 100 : 0}%`}
+                    width={`${interpolateWeight()}%`}
+
                     fill={themeColors.darkBlue}
                     height="20"
                     rx={8}
@@ -45,19 +83,19 @@ function UserProgressShower(props) {
             <View style={styles.time}>
                 <Row>
                     <Box flex={1}>
+                        <StyledText>{flowRateSwitch()}</StyledText>
                     </Box>
                     <Box flex={1}>
                         <Text style={{
                             fontSize: 20, fontFamily: 'Montserrat_600SemiBold',
                             color: themeColors.darkBlue, alignSelf: 'center'
-                        }}>{Math.round(userWeight)}ml</Text>
+                        }}>{userWeight}ml</Text>
                     </Box>
                     <Row flex={1} alignItems={'center'} justifyContent={'flex-end'}>
                         <FontAwesome name="balance-scale" size={18} color={themeColors.darkBlue}/>
                         <StyledText>Scale</StyledText>
                     </Row>
                 </Row>
-
             </View>
         </View>
     );
