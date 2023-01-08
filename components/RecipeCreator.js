@@ -11,10 +11,11 @@ import StyledHeading from "./StyledHeading";
 import {Alert} from "react-native";
 import SelectorWrapper from "./SelectorWrapper";
 import SwitchTypeBox from "./recipeCreator/SwitchTypeBox";
+import { openDatabase } from "expo-sqlite";
 
 var _ = require('lodash');
-
 const availableTypes = ['bloom', 'swirl', 'wait', 'pour', 'stir',];
+import { database } from "../App";
 
 const RecipeCreator = (props) => {
     const emptyStep = {
@@ -179,7 +180,9 @@ const RecipeCreator = (props) => {
                         flexDir={'row'}
                         onPress={() => {
                             alert('adding the recipe');
-                            // TODO: database call to add recipe
+                            database.transaction(tx => {
+                                tx.executeSql('INSERT INTO table (Recipe) VALUES (?)', JSON.stringify(data)); // TODO: Add source of function call as 'table'
+                            });
                         }}>
                         <Box width='100%' bgColor={themeColors.darkBlue} alignItems='center' p={2} borderRadius={16}>
                             <StyledText style={{color: themeColors.white, fontFamily: 'Montserrat_400Regular'}}

@@ -1,4 +1,6 @@
-import React, {createContext, useContext} from "react";
+//import React, {createContext, useContext} from "react";
+import * as React from 'react';
+import { StyleSheet, Text, AppRegistry, View, TextInput, Button } from 'react-native';
 import themeColors from "./styles/theme";
 import {extendTheme, FavouriteIcon, NativeBaseProvider,} from "native-base";
 import Header from "./components/Header"
@@ -16,12 +18,9 @@ import {
 } from '@expo-google-fonts/montserrat';
 import Recipe from "./components/Recipe";
 import RecipeCreator from "./components/RecipeCreator";
-import BluetoothConnector from "./pages/BluetoothConnector";
 import Toast from 'react-native-toast-message'
 import create from 'zustand'
-
-import {BleManager} from "react-native-ble-plx";
-
+import * as SQLite from 'expo-sqlite';
 
 const config = {
     useSystemColorMode: false,
@@ -29,21 +28,37 @@ const config = {
     backgroundColor: themeColors.white
 };
 
-
-export const useBLEStore = create((set) => ({
-    manager: new BleManager(),
-    weight: 'Device not found, connecting...',
-    setWeight: (weight) => set((state) => ({weight: weight})),
-    deviceConnected: false,
-    setDeviceConnected: (value) => set((state) => ({deviceConnected: value})),
-    flowRate: 0,
-    setFlowRate: (value) => set((state) => ({flowRate: value}))
-}))
-
 export const theme = extendTheme({config});
 const Stack = createNativeStackNavigator();
+const database = SQLite.openDatabase("SQLite\\database.db");
+export { database };
+
+var initialization = true;
 
 export default function App() {
+    if(initialization){
+        database.transaction(tx => {
+            tx.executeSql('CREATE TABLE IF NOT EXISTS V60_Roasters (id INTEGER PRIMARY KEY AUTOINCREMENT, Recipe TEXT)');
+        });
+        database.transaction(tx => {
+            tx.executeSql('CREATE TABLE IF NOT EXISTS V60__YourOwn (id INTEGER PRIMARY KEY AUTOINCREMENT, Recipe TEXT)');
+        });
+        database.transaction(tx => {
+            tx.executeSql('CREATE TABLE IF NOT EXISTS V60_Favourites (id INTEGER PRIMARY KEY AUTOINCREMENT, Recipe TEXT)');
+        });
+        database.transaction(tx => {
+            tx.executeSql('CREATE TABLE IF NOT EXISTS Espresso_Roasters (id INTEGER PRIMARY KEY AUTOINCREMENT, Recipe TEXT)');
+        });
+        database.transaction(tx => {
+            tx.executeSql('CREATE TABLE IF NOT EXISTS Espresso_YourOwn (id INTEGER PRIMARY KEY AUTOINCREMENT, Recipe TEXT)');
+        });
+        database.transaction(tx => {
+            tx.executeSql('CREATE TABLE IF NOT EXISTS Espresso_Favourites (id INTEGER PRIMARY KEY AUTOINCREMENT, Recipe TEXT)');
+        });
+
+        initialization = false;
+    }
+
     let [fontsLoaded] = useFonts({
         Montserrat_400Regular,
         Montserrat_600SemiBold,
@@ -91,15 +106,11 @@ export default function App() {
                                       headerTitle: (props) => <Header {...props} />,
                                   }}/>
 
-                    <Stack.Screen name={'BLE'} component={BluetoothConnector}
-                                  options={{
-                                      headerTitle: (props) => <Header {...props} />,
-                                  }}/>
-
-
                 </Stack.Navigator>
             </NavigationContainer>
             <Toast/>
         </NativeBaseProvider>
     );
 };
+
+AppRegistry.registerComponent('scale', () => App);
