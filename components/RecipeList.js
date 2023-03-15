@@ -1,12 +1,14 @@
 import {mocker} from "../backend/mocker";
 import {FlatList, SafeAreaView} from "react-native";
 import {Box, Center, FavouriteIcon, Pressable, Row, Text} from "native-base";
-import themeColors from "../styles/theme";
 import React, {useEffect, useState} from "react";
 import StyledHeading from "./StyledHeading";
 import StyledText from "./StyledText";
+import {useTheme} from "../styles/ThemeProvider";
 
 const RecipeList = (props) => {
+    const themeColors = useTheme().colors;
+
     const parentName = props.route.params.parent;
     const routeName = props.route.name;
 
@@ -20,7 +22,7 @@ const RecipeList = (props) => {
 
 
     return <SafeAreaView>
-        <Center paddingTop={10} bg={themeColors.white}>
+        <Center paddingTop={10} bg={themeColors.primaryFirst}>
             <Box w={'80%'} paddingBottom={12}>
 
                 <Center><StyledHeading py={2}>{parentName}</StyledHeading></Center>
@@ -32,7 +34,7 @@ const RecipeList = (props) => {
                             width: '100%',
                             padding: 20,
                             borderWidth: 1,
-                            borderColor: themeColors.darkBlue,
+                            borderColor: themeColors.secondaryFirst,
                             borderRadius: 10,
                             marginVertical: 8
                         }}
@@ -56,7 +58,7 @@ const RecipeList = (props) => {
                                     <Center flex={1}>
                                         <FavouriteIcon
                                             size={6}
-                                            color={item.favourite ? themeColors.darkBlue : themeColors.pinkishBlue}/>
+                                            color={item.favourite ? themeColors.secondaryFirst : themeColors.tertiaryFirst}/>
                                     </Center>
                                 </Pressable>
                             </Row>

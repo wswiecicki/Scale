@@ -1,6 +1,5 @@
 import {Image} from "native-base";
 import {images} from "../imports";
-import themeColors from "../styles/theme";
 import React from "react";
 
 export const secondsToMinutes = (sec) => {
@@ -13,21 +12,28 @@ export const capitalize = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-export const renderIconSwitch = (type, size = 8) => {
+export const renderIconSwitch = (type, themeColors, size = 8) => {
+
     switch (type) {
         case 'bloom':
-            return <Image key={type} source={images.bloom} size={size} tintColor={themeColors.darkBlue} alt='bloom'/>;
+            return <Image key={type} source={images.bloom} size={size} tintColor={themeColors.secondaryFirst}
+                          alt='bloom'/>;
         case 'swirl':
-            return <Image key={type} source={images.swirl} size={size} tintColor={themeColors.darkBlue} alt='swirl'/>;
+            return <Image key={type} source={images.swirl} size={size} tintColor={themeColors.secondaryFirst}
+                          alt='swirl'/>;
         case 'wait':
         case 'start':
-            return <Image key={type} source={images.wait} size={size} tintColor={themeColors.darkBlue} alt='wait'/>;
+            return <Image key={type} source={images.wait} size={size} tintColor={themeColors.secondaryFirst}
+                          alt='wait'/>;
         case 'pour':
-            return <Image key={type} source={images.pour} size={size} tintColor={themeColors.darkBlue} alt='pour'/>;
+            return <Image key={type} source={images.pour} size={size} tintColor={themeColors.secondaryFirst}
+                          alt='pour'/>;
         case 'stir':
-            return <Image key={type} source={images.stir} size={size} tintColor={themeColors.darkBlue} alt='stir'/>
+            return <Image key={type} source={images.stir} size={size} tintColor={themeColors.secondaryFirst}
+                          alt='stir'/>
         case 'end':
-            return <Image key={type} source={images.coffee} size={size} tintColor={themeColors.darkBlue} alt='stir'/>
+            return <Image key={type} source={images.coffee} size={size} tintColor={themeColors.secondaryFirst}
+                          alt='stir'/>
     }
 }
 

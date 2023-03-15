@@ -2,12 +2,14 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Svg, {Rect} from 'react-native-svg';
 import {useCountdown} from 'react-native-countdown-circle-timer'
-import themeColors from "../styles/theme";
 import {Box, Row} from "native-base";
 import {Ionicons} from '@expo/vector-icons';
 import StyledText from "./StyledText";
+import {useTheme} from "../styles/ThemeProvider";
 
 function CustomProgressBar(props) {
+    const themeColors = useTheme().colors;
+
     const {duration, weight, totalWeight} = props;
 
     const {
@@ -26,7 +28,7 @@ function CustomProgressBar(props) {
                     rx={8}
                     width={'100%'}
                     height="20"
-                    fill={themeColors.pink}
+                    fill={themeColors.tertiarySecond}
                 />
                 {elapsedTime !== duration && (
                     <Rect
@@ -44,11 +46,11 @@ function CustomProgressBar(props) {
                     <Row>
                         <Text style={{
                             fontSize: 20, fontFamily: 'Montserrat_600SemiBold',
-                            color: themeColors.darkBlue, alignSelf: 'center'
+                            color: themeColors.secondaryFirst, alignSelf: 'center'
                         }}>{Math.round(strokeDashoffset / pathLength * weight) + totalWeight}ml</Text>
                     </Row>
                     <Row flex={1} alignItems={'center'} justifyContent={'flex-end'}>
-                        <Ionicons name="ios-water-outline" size={18} color={themeColors.darkBlue}/>
+                        <Ionicons name="ios-water-outline" size={18} color={themeColors.secondaryFirst}/>
                         <StyledText>Recipe</StyledText>
                     </Row>
                 </Row>

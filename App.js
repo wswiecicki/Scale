@@ -1,6 +1,6 @@
 import React, {createContext, useContext} from "react";
 import themeColors from "./styles/theme";
-import {extendTheme, FavouriteIcon, NativeBaseProvider,} from "native-base";
+import {extendTheme, FavouriteIcon, HStack, NativeBaseProvider, Switch, Text, useColorMode,} from "native-base";
 import Header from "./components/Header"
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
@@ -21,29 +21,31 @@ import Toast from 'react-native-toast-message'
 import create from 'zustand'
 
 import {BleManager} from "react-native-ble-plx";
+import {ThemeProvider, useTheme} from "./styles/ThemeProvider";
 
 
 const config = {
     useSystemColorMode: false,
     initialColorMode: "dark",
-    backgroundColor: themeColors.white
+    backgroundColor: themeColors.primaryFirst
 };
 
 
 export const useBLEStore = create((set) => ({
     manager: new BleManager(),
     weight: 'Device not found, connecting...',
-    setWeight: (weight) => set((state) => ({weight: weight})),
+    setWeight: (weight) => set(() => ({weight: weight})),
     deviceConnected: false,
-    setDeviceConnected: (value) => set((state) => ({deviceConnected: value})),
+    setDeviceConnected: (value) => set(() => ({deviceConnected: value})),
     flowRate: 0,
-    setFlowRate: (value) => set((state) => ({flowRate: value}))
+    setFlowRate: (value) => set(() => ({flowRate: value}))
 }))
 
 export const theme = extendTheme({config});
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
     let [fontsLoaded] = useFonts({
         Montserrat_400Regular,
         Montserrat_600SemiBold,
@@ -56,50 +58,52 @@ export default function App() {
 
 
     return (
-        <NativeBaseProvider>
-            <NavigationContainer>
-                <Stack.Navigator screenOptions={{
-                    headerStyle: {
-                        backgroundColor: themeColors.white,
-                    },
-                    headerTitleAlign: 'center',
-                }}>
-                    <Stack.Screen name={'Home'} component={HomeScreen}
-                                  options={{
-                                      headerTitle: (props) => <Header tall={true} props={{...props}}/>,
-                                  }}/>
-                    <Stack.Screen name={'Espresso'} component={Espresso}
-                                  options={{
-                                      headerTitle: (props) => <Header {...props} />,
-                                  }}/>
+        <ThemeProvider>
+            <NativeBaseProvider>
+                <NavigationContainer>
+                    <Stack.Navigator screenOptions={{
+                        headerStyle: {
+                            backgroundColor: themeColors.light.primaryFirst,
+                        },
+                        headerTitleAlign: 'center',
+                    }}>
+                        <Stack.Screen name={'Home'} component={HomeScreen}
+                                      options={{
+                                          headerTitle: (props) => <Header tall={true} props={{...props}}/>,
+                                      }}/>
+                        <Stack.Screen name={'Espresso'} component={Espresso}
+                                      options={{
+                                          headerTitle: (props) => <Header {...props} />,
+                                      }}/>
 
-                    <Stack.Screen name={'V60'} component={V60}
-                                  options={{
-                                      headerTitle: (props) => <Header {...props} />,
-                                  }}/>
-                    <Stack.Screen name={'RecipeDetails'} component={RecipeDetails}
-                                  options={{
-                                      headerTitle: (props) => <Header {...props} />,
+                        <Stack.Screen name={'V60'} component={V60}
+                                      options={{
+                                          headerTitle: (props) => <Header {...props} />,
+                                      }}/>
+                        <Stack.Screen name={'RecipeDetails'} component={RecipeDetails}
+                                      options={{
+                                          headerTitle: (props) => <Header {...props} />,
 
-                                  }}/>
-                    <Stack.Screen name={'Recipe'} component={Recipe}
-                                  options={{
-                                      headerTitle: (props) => <Header {...props} />,
-                                  }}/>
-                    <Stack.Screen name={'RecipeCreator'} component={RecipeCreator}
-                                  options={{
-                                      headerTitle: (props) => <Header {...props} />,
-                                  }}/>
+                                      }}/>
+                        <Stack.Screen name={'Recipe'} component={Recipe}
+                                      options={{
+                                          headerTitle: (props) => <Header {...props} />,
+                                      }}/>
+                        <Stack.Screen name={'RecipeCreator'} component={RecipeCreator}
+                                      options={{
+                                          headerTitle: (props) => <Header {...props} />,
+                                      }}/>
 
-                    <Stack.Screen name={'BLE'} component={BluetoothConnector}
-                                  options={{
-                                      headerTitle: (props) => <Header {...props} />,
-                                  }}/>
+                        <Stack.Screen name={'BLE'} component={BluetoothConnector}
+                                      options={{
+                                          headerTitle: (props) => <Header {...props} />,
+                                      }}/>
 
 
-                </Stack.Navigator>
-            </NavigationContainer>
-            <Toast/>
-        </NativeBaseProvider>
+                    </Stack.Navigator>
+                </NavigationContainer>
+                <Toast/>
+            </NativeBaseProvider>
+        </ThemeProvider>
     );
 };

@@ -1,6 +1,5 @@
 import {Box, Center, Column, Pressable, Row, Text, View} from "native-base";
 import React, {useRef, useState} from "react";
-import themeColors from "../styles/theme";
 import {Ionicons} from '@expo/vector-icons';
 import {capitalize, descriptionSwitch, finalStep, initialStep, renderIconSwitch} from "../backend/utils";
 import StyledText from "./StyledText";
@@ -12,9 +11,12 @@ import Timer from "./Timer";
 import CustomProgressBar from "./CustomProgressBar";
 import UserProgressShower from "./UserProgressShower";
 import {useBLEStore} from "../App";
+import {useTheme} from "../styles/ThemeProvider";
 
 
 const Recipe = (props) => {
+    const themeColors = useTheme().colors;
+
     const recipe = JSON.parse(props.route.params.recipe);
 
     const steps = [initialStep, ...recipe, finalStep];
@@ -33,7 +35,7 @@ const Recipe = (props) => {
     }
 
 
-    return <View flex={1} bgColor={themeColors.white}>
+    return <View flex={1} bgColor={themeColors.primaryFirst}>
         <Row pt={8} px={8} space={2}>
             <Center flex={4}>
                 <Timer
@@ -53,11 +55,11 @@ const Recipe = (props) => {
                     borderRadius={24}
                     alignItems={'center'}
                     justifyContent={'center'}
-                    bg={themeColors.darkBlue}
+                    bg={themeColors.secondaryFirst}
                     onPress={() => setIsPlaying(!isPlaying)}
                 >
-                    {isPlaying ? (<Ionicons name="pause-circle" size={64} color={themeColors.pink}/>)
-                        : (<Ionicons name="play-circle" size={64} color={themeColors.pink}/>)}
+                    {isPlaying ? (<Ionicons name="pause-circle" size={64} color={themeColors.tertiarySecond}/>)
+                        : (<Ionicons name="play-circle" size={64} color={themeColors.tertiarySecond}/>)}
                 </Pressable>
             </Box>
             <Box flex={2} py={7}>
@@ -66,7 +68,7 @@ const Recipe = (props) => {
                     borderRadius={24}
                     alignItems={'center'}
                     justifyContent={'center'}
-                    bg={themeColors.darkBlue}
+                    bg={themeColors.secondaryFirst}
                     onPress={() => {
                         setKey(prevKey => prevKey + 1);
                         setTotalWater(getStepProp('water') + totalWater);
@@ -75,16 +77,16 @@ const Recipe = (props) => {
                 >
                     <Ionicons name="play-forward-circle"
                               size={48}
-                              color={themeColors.pink}/>
+                              color={themeColors.tertiarySecond}/>
                 </Pressable>
             </Box>
         </Row>
-        <Box m={4} p={4} borderWidth={8} borderColor={themeColors.pink} borderRadius={16}>
+        <Box m={4} p={4} borderWidth={8} borderColor={themeColors.tertiarySecond} borderRadius={16}>
             <Column>
                 <Row px={4}>
                     <Row flex={1}>
                         <Center flex={1}>
-                            {renderIconSwitch(getStepProp('name'), 16)}
+                            {renderIconSwitch(getStepProp('name'), themeColors, 16)}
                         </Center>
                         <Center flex={3}>
                             <StyledText fontSize={22}>{capitalize(getStepProp('name'))}</StyledText>
@@ -102,7 +104,7 @@ const Recipe = (props) => {
                                     key={`${key}-bar`}
                                     isPlaying={isPlaying}
                                     duration={getStepProp('time')}
-                                    colors={[themeColors.darkBlue, themeColors.pink]}
+                                    colors={[themeColors.secondaryFirst, themeColors.tertiarySecond]}
                                     weight={getStepProp('water')}
                                     totalWeight={totalWater}
                                 />
@@ -115,7 +117,7 @@ const Recipe = (props) => {
                                     weight={getStepProp('water')}
                                     size={300}
                                     totalWeight={totalWater}
-                                    colors={[themeColors.darkBlue, themeColors.pink]}
+                                    colors={[themeColors.secondaryFirst, themeColors.tertiarySecond]}
                                 />
                             </Box>) : null}
 

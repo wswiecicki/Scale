@@ -14,7 +14,6 @@ import {
 } from "native-base";
 import React, {useEffect, useRef, useState} from "react";
 import {recipeGenerator} from "../backend/mocker";
-import themeColors from "../styles/theme";
 import StyledText from "./StyledText";
 import StyledHeading from "./StyledHeading";
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -26,6 +25,7 @@ import MaskedView from "@react-native-masked-view/masked-view";
 import BoldedText from "./BoldedText";
 import {Picker} from '@react-native-picker/picker';
 import {secondsToMinutes} from "../backend/utils";
+import {useTheme} from "../styles/ThemeProvider";
 
 
 const addToFavourites = (title, parent, favourite) => {
@@ -34,6 +34,8 @@ const addToFavourites = (title, parent, favourite) => {
 }
 
 const RecipeDetails = (props) => {
+    const themeColors = useTheme().colors;
+
     const {title, parent} = props.route.params;
     const [data, setData] = useState();
     const [passedData, setPassedData] = useState();
@@ -57,7 +59,7 @@ const RecipeDetails = (props) => {
             props.navigation.setOptions({
                 headerRight: () => (
                     <FavouriteIcon size={6}
-                                   color={res.favourite ? themeColors.darkBlue : themeColors.pink}
+                                   color={res.favourite ? themeColors.secondaryFirst : themeColors.tertiarySecond}
                                    onPress={() => addToFavourites(title, parent, res.favourite)}/>
                 ),
             });
@@ -129,7 +131,7 @@ const RecipeDetails = (props) => {
         )
     }
 
-    return <View flex={1.5} bgColor={themeColors.white}>
+    return <View flex={1.5} bgColor={themeColors.primaryFirst}>
         <Spinner
             visible={isLoading}
         />
@@ -150,7 +152,7 @@ const RecipeDetails = (props) => {
             <StyledHeading py={8}>{title + ' - ' + parent}</StyledHeading>
 
             <Row px={8} pb={2} space={2}>
-                <Pressable flex={1} p={5} borderColor={themeColors.darkBlue} borderWidth={1} borderRadius={16}
+                <Pressable flex={1} p={5} borderColor={themeColors.secondaryFirst} borderWidth={1} borderRadius={16}
                            alignItems={'center'} onPress={openWaterPicker}>
                     <BoldedText fontSize={16}>Total water:</BoldedText>
 
@@ -161,7 +163,7 @@ const RecipeDetails = (props) => {
                     <BoldedText fontSize={16}>Temperature:</BoldedText>
                     <StyledText>{data ? data.waterTemp : 0}°C</StyledText>
                 </Pressable>
-                <Box flex={1} p={5} borderColor={themeColors.darkBlue} borderWidth={1} borderRadius={16}
+                <Box flex={1} p={5} borderColor={themeColors.secondaryFirst} borderWidth={1} borderRadius={16}
                      alignItems={'center'}>
                     <BoldedText fontSize={16}>Total coffee:</BoldedText>
                     <StyledText paddingBottom={4}>{selectedCoffee}g</StyledText>
@@ -170,34 +172,34 @@ const RecipeDetails = (props) => {
                 </Box>
             </Row>
             <Row px={8} pb={2} space={2}>
-                <Box borderColor={themeColors.pink} flex={3} borderWidth={1} borderRadius={8}
+                <Box borderColor={themeColors.tertiarySecond} flex={3} borderWidth={1} borderRadius={8}
                      alignItems={'center'}>
                     <StyledText p={3}>{data?.description}</StyledText>
                 </Box>
-                <Pressable borderColor={themeColors.pink} flex={1} p={2} borderWidth={1} borderRadius={8}
-                           alignItems={'center'} justifyContent={'center'} bg={themeColors.darkBlue}
+                <Pressable borderColor={themeColors.tertiarySecond} flex={1} p={2} borderWidth={1} borderRadius={8}
+                           alignItems={'center'} justifyContent={'center'} bg={themeColors.secondaryFirst}
                            onPress={() => {
                                props.navigation.navigate('Recipe', {recipe: JSON.stringify(passedData)})
                            }}
                 >
-                    <PlayIcon size={16} color={themeColors.pink}/>
+                    <PlayIcon size={16} color={themeColors.tertiarySecond}/>
                 </Pressable>
             </Row>
             <Row px={8} pb={2} space={2}>
-                <Box borderColor={themeColors.pink} flex={3} borderWidth={1} borderRadius={8}
-                     alignItems={'center'} justifyContent={'center'} bg={themeColors.pink}>
+                <Box borderColor={themeColors.tertiarySecond} flex={3} borderWidth={1} borderRadius={8}
+                     alignItems={'center'} justifyContent={'center'} bg={themeColors.tertiarySecond}>
                     <BoldedText fontSize={16} p={2}>Expected time:</BoldedText>
                 </Box>
-                <Box borderColor={themeColors.pink} flex={1} p={2} borderWidth={1} borderRadius={8}
-                     alignItems={'center'} justifyContent={'center'} bg={themeColors.pink}>
+                <Box borderColor={themeColors.tertiarySecond} flex={1} p={2} borderWidth={1} borderRadius={8}
+                     alignItems={'center'} justifyContent={'center'} bg={themeColors.tertiarySecond}>
                     <StyledText>{secondsToMinutes(totalCount(data?.steps, 'time'))}</StyledText>
                 </Box>
             </Row>
 
             <Row px={8} pb={2} space={2}>
                 <Box borderColor={'transparent'} flex={1} borderWidth={1}
-                     borderBottomColor={themeColors.pink}
-                     borderTopColor={themeColors.pink}
+                     borderBottomColor={themeColors.tertiarySecond}
+                     borderTopColor={themeColors.tertiarySecond}
                      alignItems={'center'} justifyContent={'center'}>
                     <BoldedText p={1} fontSize={16}>Steps</BoldedText>
                 </Box>

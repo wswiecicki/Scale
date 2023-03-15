@@ -1,18 +1,20 @@
 import {Center, Column, FavouriteIcon, Image} from "native-base";
-import themeColors from "../styles/theme";
 import {images} from "../imports";
 import React, {useEffect} from "react";
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 import RecipeList from "../components/RecipeList";
+import {useTheme} from "../styles/ThemeProvider";
 
 const Espresso = (props) => {
+    const themeColors = useTheme().colors;
+
     const Tab = createMaterialTopTabNavigator();
 
     useEffect(() => {
         props.navigation.setOptions({
             headerRight: () => (
                 <Image source={images.Espresso}
-                       tintColor={themeColors.darkBlue}
+                       tintColor={themeColors.secondaryFirst}
                        size={8}
                        alt={'v60'}
                 />
@@ -21,12 +23,16 @@ const Espresso = (props) => {
     })
 
     return <>
-        <Center _dark={{bg: themeColors.darkBlue}} _light={{bg: themeColors.white}} flex={1}>
+        <Center _dark={{bg: themeColors.secondaryFirst}} _light={{bg: themeColors.primaryFirst}} flex={1}>
             <Column space={5} minWidth={'100%'}>
                 <Tab.Navigator screenOptions={{
-                    tabBarStyle: {backgroundColor: themeColors.white},
-                    tabBarLabelStyle: {fontSize: 10, color: themeColors.darkBlue, fontFamily: 'Montserrat_400Regular'},
-                    tabBarIndicatorStyle: {backgroundColor: themeColors.pinkishBlue}
+                    tabBarStyle: {backgroundColor: themeColors.primaryFirst},
+                    tabBarLabelStyle: {
+                        fontSize: 10,
+                        color: themeColors.secondaryFirst,
+                        fontFamily: 'Montserrat_400Regular'
+                    },
+                    tabBarIndicatorStyle: {backgroundColor: themeColors.tertiaryFirst}
                 }}>
                     <Tab.Screen
                         initialParams={{parent: props.route.name}}
@@ -35,7 +41,7 @@ const Espresso = (props) => {
                         options={{
                             tabBarIcon: (props) =>
                                 <Image size={6}
-                                       tintColor={themeColors.darkBlue}
+                                       tintColor={themeColors.secondaryFirst}
                                        source={images.roaster_icon}
                                        alt={'roasters'}
                                 />
@@ -46,7 +52,7 @@ const Espresso = (props) => {
                                 options={{
                                     tabBarIcon: (props) =>
                                         <Image size={6}
-                                               tintColor={themeColors.darkBlue}
+                                               tintColor={themeColors.secondaryFirst}
                                                source={images.user_icon}
                                                alt={'roasters'}
                                         />
@@ -57,7 +63,7 @@ const Espresso = (props) => {
                                 options={{
                                     tabBarIcon: (props) =>
                                         <FavouriteIcon size={6}
-                                                       color={themeColors.darkBlue}
+                                                       color={themeColors.secondaryFirst}
                                                        alt={'roasters'}
                                         />
                                 }}/>
