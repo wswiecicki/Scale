@@ -1,19 +1,21 @@
 import {CountdownCircleTimer} from 'react-native-countdown-circle-timer'
 import {Box, Progress, Text} from "native-base";
-import themeColors from "../styles/theme";
 import StyledText from "./StyledText";
 import {secondsToMinutes} from "../backend/utils";
 import React from "react";
+import {useTheme} from "../styles/ThemeProvider";
 
 const Timer = ({isPlaying, stepTime, onComplete}) => {
+    const themeColors = useTheme().colors;
+
     return <CountdownCircleTimer
         updateInterval={0}
         strokeWidth={16}
         size={128}
         isPlaying={isPlaying}
         duration={stepTime}
-        trailColor={themeColors.pink}
-        colors={[themeColors.darkBlue, themeColors.pink]}
+        trailColor={themeColors.tertiarySecond}
+        colors={[themeColors.secondaryFirst, themeColors.tertiarySecond]}
         colorsTime={[10, 0]}
         onComplete={onComplete}
     >

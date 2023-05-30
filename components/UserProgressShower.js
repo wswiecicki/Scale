@@ -3,14 +3,16 @@ import {View, StyleSheet, Text} from 'react-native';
 import Svg, {Path, LinearGradient, Stop, Defs, Rect} from 'react-native-svg';
 import Constants from 'expo-constants';
 import {useCountdown} from 'react-native-countdown-circle-timer'
-import themeColors from "../styles/theme";
 import {Box, Column, Row} from "native-base";
-import {useBLEStore} from "../App";
 import StyledText from "./StyledText";
 import {FontAwesome} from '@expo/vector-icons';
+import {useTheme} from "../styles/ThemeProvider";
+import {useBLEStore} from "../store/useBLEStore";
 
 
 function UserProgressShower(props) {
+    const themeColors = useTheme().colors;
+
     const {duration, weight, totalWeight, size} = props;
 
     const {
@@ -67,13 +69,13 @@ function UserProgressShower(props) {
                     rx={8}
                     width={'100%'}
                     height="20"
-                    fill={themeColors.pinkishBlue}
+                    fill={themeColors.tertiaryFirst}
                 />
 
                 <Rect
                     width={`${interpolateWeight()}%`}
 
-                    fill={themeColors.darkBlue}
+                    fill={themeColors.secondaryFirst}
                     height="20"
                     rx={8}
                 />
@@ -88,11 +90,11 @@ function UserProgressShower(props) {
                     <Box flex={1}>
                         <Text style={{
                             fontSize: 20, fontFamily: 'Montserrat_600SemiBold',
-                            color: themeColors.darkBlue, alignSelf: 'center'
+                            color: themeColors.secondaryFirst, alignSelf: 'center'
                         }}>{userWeight}ml</Text>
                     </Box>
                     <Row flex={1} alignItems={'center'} justifyContent={'flex-end'}>
-                        <FontAwesome name="balance-scale" size={18} color={themeColors.darkBlue}/>
+                        <FontAwesome name="balance-scale" size={18} color={themeColors.secondaryFirst}/>
                         <StyledText>Scale</StyledText>
                     </Row>
                 </Row>

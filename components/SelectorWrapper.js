@@ -1,14 +1,15 @@
-import themeColors from "../styles/theme";
 import {Box, Center, Select} from "native-base";
 import StyledText from "./StyledText";
-import _ from "lodash";
 import React from "react";
+import {useTheme} from "../styles/ThemeProvider";
 
 const SelectorWrapper = ({children, text, items, selectedValue, onValueChange, placeholder}) => {
+    const themeColors = useTheme().colors;
+
     return <>
         <Box flex={1}
              borderRadius={16}
-             bgColor={themeColors.pink}
+             bgColor={themeColors.tertiarySecond}
              alignSelf={'baseline'}>
             <Center>
                 <Box
@@ -21,9 +22,9 @@ const SelectorWrapper = ({children, text, items, selectedValue, onValueChange, p
                 </Box>
             </Center>
             <Select
-                borderColor={themeColors.pink}
+                borderColor={themeColors.tertiarySecond}
                 borderRadius={16}
-                bgColor={themeColors.white}
+                bgColor={themeColors.primaryFirst}
                 fontFamily={'Montserrat_400Regular'}
 
                 selectedValue={selectedValue}

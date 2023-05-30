@@ -1,5 +1,4 @@
 import {Box, Button, Center, Column, FormControl, Input, Modal, Pressable, Row, Select, TextArea} from "native-base";
-import themeColors from "../styles/theme";
 import Tile from "./Tile";
 import React, {useState} from "react";
 import StyledText from "./StyledText";
@@ -11,12 +10,17 @@ import StyledHeading from "./StyledHeading";
 import {Alert} from "react-native";
 import SelectorWrapper from "./SelectorWrapper";
 import SwitchTypeBox from "./recipeCreator/SwitchTypeBox";
+import {useTheme} from "../styles/ThemeProvider";
 
 var _ = require('lodash');
 
 const availableTypes = ['bloom', 'swirl', 'wait', 'pour', 'stir',];
 
+import {database} from "../middleware/sqlite"
+
 const RecipeCreator = (props) => {
+    const themeColors = useTheme().colors;
+
     const emptyStep = {
         name: availableTypes[0],
         time: 0, // bloom, swirl, wait, pour, stir
@@ -109,7 +113,7 @@ const RecipeCreator = (props) => {
                             <StyledText>Cancel</StyledText>
                         </Pressable>
                         <Pressable
-                            bgColor={themeColors.pink}
+                            bgColor={themeColors.tertiarySecond}
                             p={4}
                             borderRadius={8}
                             onPress={() => {
@@ -124,7 +128,7 @@ const RecipeCreator = (props) => {
             </Modal.Content>
         </Modal>
 
-        <Center _dark={{bg: themeColors.darkBlue}} _light={{bg: themeColors.white}} flex={1}>
+        <Center _dark={{bg: themeColors.secondaryFirst}} _light={{bg: themeColors.primaryFirst}} flex={1}>
             <Column space={4} alignItems="center" px={8} pt={8} flex={1}>
                 <StyledHeading p={4}>Input a step:</StyledHeading>
                 <Row>
@@ -171,18 +175,34 @@ const RecipeCreator = (props) => {
                                 ]
                             );
                         }}>
-                        <Box width='100%' bgColor={themeColors.pink} alignItems='center' p={2} borderRadius={16}>
+                        <Box width='100%' bgColor={themeColors.tertiarySecond} alignItems='center' p={2}
+                             borderRadius={16}>
                             <StyledText fontSize={16}>Add step</StyledText>
                         </Box>
                     </Pressable>
                     <Pressable
                         flexDir={'row'}
                         onPress={() => {
-                            alert('adding the recipe');
-                            // TODO: database call to add recipe
+                            Alert.alert('adding the recipe', '', [{
+                                text: 'OK', onPress: () => {
+                                    if (!stepSanitizer()) {
+                                        alert('Step invalid');
+                                    } else {
+                                        setData({
+                                            ...data,
+                                            steps: [...data.steps, {...currentStep, id: data.steps.length}]
+                                        })
+                                        database.transaction(tx => {
+                                            tx.executeSql('INSERT INTO Recipes (title, waterTemp, grind, description, favourite, steps, own) values (?, ?, ?, ?, ?, ?, ?)', [data.title, data.waterTemp, data.grind, data.description, 1, JSON.stringify(data.steps), 1]);
+                                        });
+                                        props.navigation.goBack();
+                                    }
+                                }
+                            }]);
                         }}>
-                        <Box width='100%' bgColor={themeColors.darkBlue} alignItems='center' p={2} borderRadius={16}>
-                            <StyledText style={{color: themeColors.white, fontFamily: 'Montserrat_400Regular'}}
+                        <Box width='100%' bgColor={themeColors.secondaryFirst} alignItems='center' p={2}
+                             borderRadius={16}>
+                            <StyledText style={{color: themeColors.primaryFirst, fontFamily: 'Montserrat_400Regular'}}
                                         fontSize={16}>Finish</StyledText>
                         </Box>
                     </Pressable>

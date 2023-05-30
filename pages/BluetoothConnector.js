@@ -4,14 +4,16 @@ import {BleManager} from "react-native-ble-plx";
 import {sleep} from "../backend/mocker";
 import base64 from "react-native-base64";
 import Toast from "react-native-toast-message";
-import {useBLEStore} from "../App";
 import StyledText from "../components/StyledText";
-import themeColors from "../styles/theme";
+import {useTheme} from "../styles/ThemeProvider";
+import {useBLEStore} from "../store/useBLEStore";
 
-var Buffer = require("@craftzdog/react-native-buffer").Buffer;
+const Buffer = require("@craftzdog/react-native-buffer").Buffer;
 
 
 const BluetoothConnector = (props) => {
+    const themeColors = useTheme().colors;
+
     const manager = useBLEStore((state) => state.manager);
     const weight = useBLEStore((state) => state.weight);
     const setWeight = useBLEStore((state) => state.setWeight)
@@ -157,7 +159,7 @@ const BluetoothConnector = (props) => {
                 <Box
                     mb={8}
                     borderRadius={16}
-                    bgColor={themeColors.pink}
+                    bgColor={themeColors.tertiarySecond}
                     alignSelf={'center'}>
 
                     <Center>

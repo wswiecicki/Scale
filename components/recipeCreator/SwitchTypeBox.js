@@ -1,11 +1,13 @@
 import {Box, Center, Column, Input, Row, Select} from "native-base";
 import SelectorWrapper from "../SelectorWrapper";
 import _ from "lodash";
-import themeColors from "../../styles/theme";
 import StyledText from "../StyledText";
 import React from "react";
+import {useTheme} from "../../styles/ThemeProvider";
 
 const SwitchTypeBox = (props) => {
+    const themeColors = useTheme().colors;
+
     const type = props.type;
     const step = props.step;
     const setStep = props.setter;
@@ -111,7 +113,7 @@ const SwitchTypeBox = (props) => {
                         {/* description */}
                         <Box flex={1}
                              borderRadius={16}
-                             bgColor={themeColors.pink}
+                             bgColor={themeColors.tertiarySecond}
                              alignSelf={'baseline'}>
                             <Center>
                                 <Box
@@ -124,9 +126,9 @@ const SwitchTypeBox = (props) => {
                                 </Box>
                             </Center>
                             <Input
-                                borderColor={themeColors.pink}
+                                borderColor={themeColors.tertiarySecond}
                                 borderRadius={16}
-                                bgColor={themeColors.white}
+                                bgColor={themeColors.primaryFirst}
                                 value={step.description} w="100%"
                                 onChangeText={(text) => setStep({...step, description: text})}
                                 placeholder="Description"/>
