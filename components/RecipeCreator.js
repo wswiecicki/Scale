@@ -16,6 +16,8 @@ var _ = require('lodash');
 
 const availableTypes = ['bloom', 'swirl', 'wait', 'pour', 'stir',];
 
+import {database} from "../middleware/sqlite"
+
 const RecipeCreator = (props) => {
     const themeColors = useTheme().colors;
 
@@ -181,8 +183,22 @@ const RecipeCreator = (props) => {
                     <Pressable
                         flexDir={'row'}
                         onPress={() => {
-                            alert('adding the recipe');
-                            // TODO: database call to add recipe
+                            Alert.alert('adding the recipe', '', [{
+                                text: 'OK', onPress: () => {
+                                    if (!stepSanitizer()) {
+                                        alert('Step invalid');
+                                    } else {
+                                        setData({
+                                            ...data,
+                                            steps: [...data.steps, {...currentStep, id: data.steps.length}]
+                                        })
+                                        database.transaction(tx => {
+                                            tx.executeSql('INSERT INTO Recipes (title, waterTemp, grind, description, favourite, steps, own) values (?, ?, ?, ?, ?, ?, ?)', [data.title, data.waterTemp, data.grind, data.description, 1, JSON.stringify(data.steps), 1]);
+                                        });
+                                        props.navigation.goBack();
+                                    }
+                                }
+                            }]);
                         }}>
                         <Box width='100%' bgColor={themeColors.secondaryFirst} alignItems='center' p={2}
                              borderRadius={16}>

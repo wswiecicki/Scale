@@ -4,10 +4,10 @@ import Svg, {Path, LinearGradient, Stop, Defs, Rect} from 'react-native-svg';
 import Constants from 'expo-constants';
 import {useCountdown} from 'react-native-countdown-circle-timer'
 import {Box, Column, Row} from "native-base";
-import {useBLEStore} from "../App";
 import StyledText from "./StyledText";
 import {FontAwesome} from '@expo/vector-icons';
 import {useTheme} from "../styles/ThemeProvider";
+import {useBLEStore} from "../store/useBLEStore";
 
 
 function UserProgressShower(props) {

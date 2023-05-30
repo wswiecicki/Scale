@@ -4,11 +4,11 @@ import {BleManager} from "react-native-ble-plx";
 import {sleep} from "../backend/mocker";
 import base64 from "react-native-base64";
 import Toast from "react-native-toast-message";
-import {useBLEStore} from "../App";
 import StyledText from "../components/StyledText";
 import {useTheme} from "../styles/ThemeProvider";
+import {useBLEStore} from "../store/useBLEStore";
 
-var Buffer = require("@craftzdog/react-native-buffer").Buffer;
+const Buffer = require("@craftzdog/react-native-buffer").Buffer;
 
 
 const BluetoothConnector = (props) => {

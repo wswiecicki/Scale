@@ -10,8 +10,8 @@ import StepList from "./StepList";
 import Timer from "./Timer";
 import CustomProgressBar from "./CustomProgressBar";
 import UserProgressShower from "./UserProgressShower";
-import {useBLEStore} from "../App";
 import {useTheme} from "../styles/ThemeProvider";
+import {useBLEStore} from "../store/useBLEStore";
 
 
 const Recipe = (props) => {
@@ -135,7 +135,7 @@ const Recipe = (props) => {
                 <LinearGradient
                     colors={['rgb(237,237,237)', 'transparent']}
                     style={{width: '100%', height: '100%', zIndex: 1}}
-                    start={{x: Platform.OS === 'ios' ? 0.5 : 0, y: 0.8}}
+                    start={{x: 0.5, y: 0.8}}
                 />
             }>
             <StepList steps={steps.slice(key + 1, -1)}/>

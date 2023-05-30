@@ -7,7 +7,8 @@ import {Ionicons} from "@expo/vector-icons";
 import {useTheme} from "../styles/ThemeProvider";
 
 const V60 = (props) => {
-    const themeColors = useTheme().colors;
+    const colors = useTheme();
+    const themeColors = colors.colors;
 
     const Tab = createMaterialTopTabNavigator();
 
@@ -16,9 +17,10 @@ const V60 = (props) => {
             headerRight: () => (
                 <Pressable
                     onPress={() => props.navigation.navigate('RecipeCreator')}>
-                    <Ionicons name="md-add-outline" color={themeColors.secondaryFirst} size={30}/>
+                    <Ionicons name="md-add-outline" color={themeColors.quaternaryFirst} size={30}/>
                 </Pressable>
             ),
+            headerTintColor: themeColors.quaternaryFirst
         });
     })
 
@@ -32,7 +34,7 @@ const V60 = (props) => {
                         color: themeColors.secondaryFirst,
                         fontFamily: 'Montserrat_400Regular'
                     },
-                    tabBarIndicatorStyle: {backgroundColor: themeColors.tertiaryFirst}
+                    tabBarIndicatorStyle: {backgroundColor: themeColors.secondaryFirst}
                 }}>
                     <Tab.Screen
                         initialParams={{parent: props.route.name}}

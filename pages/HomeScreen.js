@@ -12,7 +12,6 @@ const HomeScreen = ({navigation}) => {
         <Center bg={themeColors.primaryFirst} flex={1}>
             <Column space={5} alignItems="center">
                 <Row space={4}>
-                    <Tile text='Espresso' navigation={navigation} size={Dimensions.get('window').width / 3}/>
                     <Tile text='V60' navigation={navigation} size={Dimensions.get('window').width / 3}/>
                 </Row>
 

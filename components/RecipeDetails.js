@@ -37,6 +37,7 @@ const RecipeDetails = (props) => {
     const themeColors = useTheme().colors;
 
     const {title, parent} = props.route.params;
+    const recipe = JSON.parse(props.route.params.recipe);
     const [data, setData] = useState();
     const [passedData, setPassedData] = useState();
     const [initialData, setInitialData] = useState();
@@ -47,23 +48,23 @@ const RecipeDetails = (props) => {
     const [selectedCoffee, setSelectedCoffee] = useState(0);
 
     useEffect(() => {
-        recipeGenerator(title, parent).then(res => {
-            setData(res);
-            setInitialData(res.steps);
-            setPassedData(res.steps);
-            setSelectedWater(totalCount(res.steps, 'water'));
-            setSelectedCoffee(totalCount(res.steps, 'coffee'));
-            setInitialWater(totalCount(res.steps, 'water'));
-            setInitialCoffee(totalCount(res.steps, 'coffee'));
-            setLoading(false);
-            props.navigation.setOptions({
-                headerRight: () => (
-                    <FavouriteIcon size={6}
-                                   color={res.favourite ? themeColors.secondaryFirst : themeColors.tertiarySecond}
-                                   onPress={() => addToFavourites(title, parent, res.favourite)}/>
-                ),
-            });
+        setData(recipe);
+        setInitialData(recipe.steps);
+        setPassedData(recipe.steps);
+        setSelectedWater(totalCount(recipe.steps, 'water'));
+        setSelectedCoffee(totalCount(recipe.steps, 'coffee'));
+        setInitialWater(totalCount(recipe.steps, 'water'));
+        setInitialCoffee(totalCount(recipe.steps, 'coffee'));
+        setLoading(false)
+        props.navigation.setOptions({
+            headerRight: () => (
+                <FavouriteIcon size={6}
+                               color={recipe.favourite ? themeColors.secondaryFirst : themeColors.tertiarySecond}
+                               onPress={() => addToFavourites(title, parent, recipe.favourite)}/>
+            ),
+            headerTintColor: themeColors.quaternaryFirst
         });
+
     }, [props.navigation]);
 
     const waterRef = useRef();
@@ -149,7 +150,9 @@ const RecipeDetails = (props) => {
         </Picker>
 
         <Center>
-            <StyledHeading py={8}>{title + ' - ' + parent}</StyledHeading>
+            <Box px={4} alignItems={'center'} justifyContent={'center'}>
+                <StyledHeading py={8}>{title}</StyledHeading>
+            </Box>
 
             <Row px={8} pb={2} space={2}>
                 <Pressable flex={1} p={5} borderColor={themeColors.secondaryFirst} borderWidth={1} borderRadius={16}
@@ -173,7 +176,7 @@ const RecipeDetails = (props) => {
             </Row>
             <Row px={8} pb={2} space={2}>
                 <Box borderColor={themeColors.tertiarySecond} flex={3} borderWidth={1} borderRadius={8}
-                     alignItems={'center'}>
+                     alignItems={'center'} justifyContent={'center'}>
                     <StyledText p={3}>{data?.description}</StyledText>
                 </Box>
                 <Pressable borderColor={themeColors.tertiarySecond} flex={1} p={2} borderWidth={1} borderRadius={8}
@@ -210,7 +213,7 @@ const RecipeDetails = (props) => {
             <LinearGradient
                 colors={['rgb(237,237,237)', 'transparent']}
                 style={{width: '100%', height: '100%', zIndex: 1}}
-                start={{x: Platform.OS === 'ios' ? 0.5 : 0, y: 0.8}}
+                start={{x: 0.5, y: 0.8}}
             />
         }>
             <StepList steps={data ? data.steps : []}/>

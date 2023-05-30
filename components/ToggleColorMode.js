@@ -9,11 +9,11 @@ export const ToggleDarkMode = () => {
     const {colorMode, toggleColorMode} = useColorMode();
     return (
         <HStack space={2} alignItems="center">
-            <Entypo name="moon" size={24} color={themeColors.secondaryFirst}/>
+            <Entypo name="moon" size={24} color={themeColors.secondaryBackground}/>
             <Switch
                 mx={4}
                 offTrackColor={themeColors.tertiarySecond}
-                onTrackColor={themeColors.secondaryFirst}
+                onTrackColor={themeColors.secondaryBackground}
                 isChecked={colorMode === "light"}
                 onToggle={() => {
                     toggleColorMode();
@@ -21,7 +21,7 @@ export const ToggleDarkMode = () => {
                 }}
                 size={"lg"}
             />
-            <Fontisto name="day-sunny" size={24} color={themeColors.secondaryFirst}/>
+            <Fontisto name="day-sunny" size={24} color={themeColors.secondaryBackground}/>
         </HStack>
     );
 }
