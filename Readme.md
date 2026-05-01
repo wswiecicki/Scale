@@ -1,4 +1,8 @@
+# Scale 
 
+A React Native app with Expo. It connects to a custom-built scale over Bluetooth Low Energy (BLE) and streams live data.
+
+The app allows the user to control the water and coffee pour speed, pauses, and timings via built-in recipes. User can also create recipes themselves. 
 
 
 ## Usage
@@ -6,7 +10,7 @@
 ```shell
 npm install
 ```
-### Running
+### Running - dev
 Install Expo Go on mobile, then run
 ```shell
 npm run start
